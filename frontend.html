@@ -1,0 +1,60 @@
+<html>
+<head>
+<title>AJAX test</title>
+</head>
+<body>
+<script type="text/javascript">
+
+function xml_http_post(url, callback) {
+    var req = false;
+    try {
+        // Firefox, Opera 8.0+, Safari
+        req = new XMLHttpRequest();
+    }
+    catch (e) {
+        // Internet Explorer
+        try {
+            req = new ActiveXObject("Msxml2.XMLHTTP");
+        }
+        catch (e) {
+            try {
+                req = new ActiveXObject("Microsoft.XMLHTTP");
+            }
+            catch (e) {
+                alert("Your browser does not support AJAX!");
+                return false;
+            }
+        }
+    }
+    req.open("POST", url, true);
+    req.onreadystatechange = function() {
+        if (req.readyState == 4) {
+            callback(req);
+        }
+    }
+    req.send();
+}
+
+function test_button() {
+              
+    xml_http_post("frontend.html", test_handle)
+	setTimeout(test_button, 5000);
+}
+
+function test_handle(req) {
+    var elem = document.getElementById('test_result')
+    elem.innerHTML =  req.responseText
+}
+
+</script>
+
+<form name=test_form>
+
+
+<input type=button onClick="test_button();" value="update" title="update">
+<span id="test_result">0</span>
+
+</form>
+
+</body>
+</html>
